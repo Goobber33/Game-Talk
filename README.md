@@ -1,0 +1,1 @@
+This is a project for a client that wants an urban dictionary like site, but for video game terms. The client provided the data, and I migrated it all to MongoDB Atlas.
