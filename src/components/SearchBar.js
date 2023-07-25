@@ -1,36 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 
 const SearchBar = () => {
     const [term, setTerm] = useState("");
     const [results, setResults] = useState([]);
 
-    useEffect(() => {
-        const search = async () => {
-            const { data } = await axios.get("http://localhost:5000/api/search", {
-                params: { query: term },
-            });
-            console.log(data); // log the data to console
-            
-            // Check if data is an object and convert it to an array
-            if (data && typeof data === "object") {
-                const dataArray = Object.values(data);  // Convert the object to an array
-                setResults(dataArray);
-            } else {
-                console.log("Unexpected data:", data);
-            }
-        };
+    const search = useCallback(async () => {
+        const { data } = await axios.get("http://localhost:5000/api/search", {
+            params: { query: term },
+        });
+        console.log(data); // log the data to console
 
-        if (term) {
-            search();
+        // Check if data is an array
+        if (data && Array.isArray(data)) {
+            setResults(data);
+        } else {
+            console.log("Unexpected data:", data);
         }
     }, [term]);
 
     const renderedResults = results.map((result, index) => {
         return (
             <div key={index} className="list-group-item">
-                <h4 className="list-group-item-heading">{result.term}</h4>
-                <p className="list-group-item-text">{result.definition}</p>
+                <h4 className="list-group-item-heading">{result.TERM}</h4>
+                <p className="list-group-item-text">{result.DEFINITION}</p>
                 {/* add here more fields as needed */}
             </div>
         );
@@ -47,7 +40,7 @@ const SearchBar = () => {
                     onChange={(e) => setTerm(e.target.value)}
                 />
                 <div className="input-group-append">
-                    <button className="btn btn-outline-secondary" type="button">
+                    <button className="btn btn-outline-secondary" type="button" onClick={search}>
                         Search
                     </button>
                 </div>

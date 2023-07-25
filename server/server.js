@@ -14,8 +14,31 @@ app.get('/api/search', async (req, res) => {
     try {
         await client.connect();
         const collection = client.db("gdata").collection("gdata");
-        const query = { term: req.query.query }
+        console.log(`Received search query: ${req.query.query}`);
         
+        // Define a regex for case-insensitive matching
+        const regex = new RegExp(req.query.query, 'i');
+        
+        // Define an array of queries for each field
+        const queries = [
+            { "id": { $regex: regex } },
+            { "CLASS": { $regex: regex } },
+            { "TERM": { $regex: regex } },
+            { "TECHNICAL TERM": { $regex: regex } },
+            { "DEFINITION": { $regex: regex } },
+            { "SPECIALIZATION": { $regex: regex } },
+            { "PvP": { $regex: regex } },
+            { "PvE": { $regex: regex } },
+            { "SYNONYMS": { $regex: regex } },
+            { "TALENTS": { $regex: regex } },
+            { "PVP TALENTS": { $regex: regex } },
+            { "SCHOOL OF MAGIC": { $regex: regex } },
+            { "COVENANT": { $regex: regex } },
+            // Add more fields as needed
+        ];
+        
+        const query = { 'TERM': { $regex: new RegExp(req.query.query), $options: 'i' } };
+
         // Log the query to the console
         console.log(`Searching for: ${JSON.stringify(query)}`);
 
@@ -32,6 +55,7 @@ app.get('/api/search', async (req, res) => {
         await client.close();
     }
 });
+
 
 app.get('/api/count', async (req, res) => {
     const uri = process.env.MONGODB_URI;
@@ -53,9 +77,6 @@ app.get('/api/count', async (req, res) => {
         await client.close();
     }
 });
-
-
-
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));

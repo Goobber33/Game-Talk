@@ -1,12 +1,14 @@
 import React from 'react';
-import './App.css';
-import SearchBar from './SearchBar';  // path to your SearchBar component
+import './styles/App.css';
+import HomePage from './components/HomePage';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <header className="App-header">
-        <SearchBar />
+        <HomePage />
       </header>
     </div>
   );
