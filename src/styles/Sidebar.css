@@ -1,0 +1,26 @@
+.sidebar {
+    width: 0;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #282c34;
+    overflow-x: hidden;
+    transition: 0.5s; /* adds the smooth transition */
+    transform: translateX(100%); /* starts off-screen */
+}
+
+.sidebar.visible {
+    width: 250px;
+    transform: translateX(0);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+}
