@@ -1,6 +1,11 @@
 /* NavBar.css */
 .custom-navbar {
     background-color: #282c34;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; 
 }
 
 .custom-navbar .navbar-nav {
